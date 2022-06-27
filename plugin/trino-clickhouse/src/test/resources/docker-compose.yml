@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  coordinator:
+    image: "lewuathe/trino-coordinator:354"
+    ports:
+      - "8080:8080"
+    container_name: "coordinator"
+    command: http://coordinator:8080 coordinator
+  worker0:
+    image: "lewuathe/trino-worker:354"
+    container_name: "worker0"
+    ports:
+      - "8081:8081"
+    command: http://coordinator:8080 worker0
+  worker1:
+    image: "lewuathe/trino-worker:354"
+    container_name: "worker1"
+    ports:
+      - "8082:8081"
+    command: http://coordinator:8080 worker1
+
+  clickhouse:
+    image: "yandex/clickhouse-server:21.3.20.1"
+    container_name: "clickhouse"
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+      - "9009:9009"
